@@ -4,18 +4,18 @@
     ---------------------------------------------------------------------------------
     The test consists of a small invoice application that has a number of issues.
     Your job is to fix them and make sure you can perform the functions in each method below.
-    Note your first job is to get the solution to execute! 
-	
+    Note your first job is to get the solution to execute!
+
     Rules
     ---------------------------------------------------------------------------------
     * The entire solution must be written in Javascript.
     * Feel free to use ECMA2015 (ES6) syntax
     * You can modify any of the code in this solution, split out classes etc
-    * You can modify Invoice and InvoiceLine, rename and add methods, change property types (hint) 
+    * You can modify Invoice and InvoiceLine, rename and add methods, change property types (hint)
     * Feel free to use any libraries or frameworks you like
-    * Feel free to write tests (hint) 
-    * Show off your skills! 
-    Good luck :) 
+    * Feel free to write tests (hint)
+    * Show off your skills!
+    Good luck :)
     When you have finished the solution please zip it up and email it back to the recruiter or developer who sent it to you
 */
 
