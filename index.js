@@ -1,4 +1,4 @@
-
+'use strict';
 /*
     Welcome to the Xero technical excercise!
     ---------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ function Main() {
     InvoiceToString();
 }
 
-function CreateInvoiceWithOneItem() {
+function CreateInvoiceWithOneIem() {
     const invoice = new Invoice();
     invoice.AddInvoiceLine(new InvoiceLine(1, 6.99, 1, "Apple"));
     console.log(invoice.LineItems);

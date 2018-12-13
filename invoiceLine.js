@@ -1,3 +1,5 @@
+'use strict';
+
 class InvoiceLine {
     constructor(InvoiceLineId, Cost, Quantity, Description) {
         this.InvoiceLineId = InvoiceLineId;

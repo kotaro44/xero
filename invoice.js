@@ -1,3 +1,5 @@
+'use strict';
+
 class Invoice {
     constructor(InvoiceDate = new Date(), InvoiceNumber = "", LineItems = []) {
         this.InvoiceDate = InvoiceDate;
@@ -29,7 +31,7 @@ class Invoice {
     }
 
     Clone() {
-        return null;
+        return new Invoice();
     };
 }
 
