@@ -19,81 +19,90 @@
     When you have finished the solution please zip it up and email it back to the recruiter or developer who sent it to you
 */
 
-const Invoice = require('./invoice.js');
-const InvoiceLine = require('./invoiceLine.js');
+const {Invoice, InvoiceLine} = require('./invoice.js');
+const Console = {
+    WriteLine: function PrintLn() {
+        return console.log(...[].map.call(arguments, argument => {
+            if (typeof argument.toString === 'function') {
+                return argument.toString();
+            }
+
+            return argument;
+        }));
+    }
+};
 
 function Main() {
-    console.log("Welcome to Xero Tech Test!");
+    console.log('Welcome to Xero Tech Test!');
 
-    CreateInvoiceWithOneIem();
-    CreateInvoiceWithMultipleItemsAndQuantities();
-    RemoveItem();
-    MergeInvoices();
-    CloneInvoice();
-    InvoiceToString();
+    createInvoiceWithOneIem();
+    createInvoiceWithMultipleItemsAndQuantities();
+    removeItem();
+    mergeInvoices();
+    cloneInvoice();
+    invoiceToString();
 }
 
-function CreateInvoiceWithOneIem() {
+function createInvoiceWithOneIem() {
     const invoice = new Invoice();
-    invoice.AddInvoiceLine(new InvoiceLine(1, 6.99, 1, "Apple"));
-    console.log(invoice.LineItems);
+    invoice.addInvoiceLine(new InvoiceLine(1, 6.99, 1, 'Apple'));
+    console.log(invoice.lines);
 }
 
-function CreateInvoiceWithMultipleItemsAndQuantities () {
+function createInvoiceWithMultipleItemsAndQuantities () {
     const invoice = new Invoice();
-    invoice.AddInvoiceLine(new InvoiceLine(1, 10.21, 4, "Banana"));
-    invoice.AddInvoiceLine(new InvoiceLine(2, 5.21, 1, "Orange" ));
-    invoice.AddInvoiceLine(new InvoiceLine(3, 6.21, 5, "Pineapple"));
-    console.log(invoice.GetTotal());
+    invoice.addInvoiceLine(new InvoiceLine(1, 10.21, 4, 'Banana'));
+    invoice.addInvoiceLine(new InvoiceLine(2, 5.21, 1, 'Orange' ));
+    invoice.addInvoiceLine(new InvoiceLine(3, 6.21, 5, 'Pineapple'));
+    console.log(invoice.getTotal());
 }
 
-function RemoveItem() {
+function removeItem() {
     const invoice = new Invoice();
 
-    invoice.AddInvoiceLine(new InvoiceLine(1, 10.21, 1, "Orange"));
-    invoice.AddInvoiceLine(new InvoiceLine(2, 10.99, 5, "Banana"));
+    invoice.addInvoiceLine(new InvoiceLine(1, 10.21, 1, 'Orange'));
+    invoice.addInvoiceLine(new InvoiceLine(2, 10.99, 5, 'Banana'));
 
-    invoice.RemoveInvoiceLine(1);
+    invoice.removeInvoiceLine(1);
 
-    console.log(invoice.GetTotal());
+    console.log(invoice.getTotal());
 }
 
-function MergeInvoices() {
+function mergeInvoices() {
     const invoice1 = new Invoice();
 
-    invoice1.AddInvoiceLine(new InvoiceLine(1, 10.21, 1, "Blueberries"));
+    invoice1.addInvoiceLine(new InvoiceLine(1, 10.21, 1, 'Blueberries'));
 
     const invoice2 = new Invoice();
 
-    invoice2.AddInvoiceLine(new InvoiceLine(2, 5.29, 4, "Orange"));
-    invoice2.AddInvoiceLine(new InvoiceLine(3, 9.99, 1, "Banana"));
+    invoice2.addInvoiceLine(new InvoiceLine(2, 5.29, 4, 'Orange'));
+    invoice2.addInvoiceLine(new InvoiceLine(3, 9.99, 1, 'Banana'));
 
-    invoice1.MergeInvoices(invoice2);
+    invoice1.mergeInvoice(invoice2);
 
-    console.log(invoice1.GetTotal());
+    console.log(invoice1.getTotal());
 }
 
-function CloneInvoice() {
+function cloneInvoice() {
     const invoice = new Invoice();
 
-    invoice.AddInvoiceLine(new InvoiceLine(1, 0.99, 5, "Onion"));
-    invoice.AddInvoiceLine(new InvoiceLine(2, 10.49, 2, "Watermelon"));
+    invoice.addInvoiceLine(new InvoiceLine(1, 0.99, 5, 'Onion'));
+    invoice.addInvoiceLine(new InvoiceLine(2, 10.49, 2, 'Watermelon'));
 
-    const ClonedInvoice = invoice.Clone();
-    console.log(ClonedInvoice.GetTotal());
+    const ClonedInvoice = invoice.clone();
+    console.log(ClonedInvoice.getTotal());
 }
 
-function InvoiceToString() {
+function invoiceToString() {
     const invoice = new Invoice(
         new Date(),
-        "1000",
+        '1000',
         [
-            new InvoiceLine(1, 1.99, 20, "Peer")
+            new InvoiceLine(1, 1.99, 20, 'Peer')
         ]
     );
 
-    console.log(invoice);
+    console.log(invoice.toString());
 }
-
 
 Main();
