@@ -1,3 +1,20 @@
+To run this project after cloning, inside the repo folder just run:
+
+```javascript
+npm install
+```
+
+To run the App simple run:
+```javascript
+npm run
+```
+
+To run all the tests:
+```javascript
+npm test
+```
+Original Instructions:
+
 XeroTechnicalTest consists of a Node.js console application.
 
 Notes:
