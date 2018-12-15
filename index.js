@@ -29,7 +29,7 @@
  */
 
 //we can directly include both classes from invoice.js
-const {Invoice, InvoiceLine} = require('./invoice.js');
+const {Invoice, InvoiceLine} = require('./classes/invoice.js');
 
 /**
  * This is a 'C' like program that declares a 'main' function that calls all the remianing function as needed.

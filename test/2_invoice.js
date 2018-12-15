@@ -4,7 +4,7 @@
  * This is a Full Test of the Invoice Class
  */
 const assert = require('assert');
-const {Invoice, InvoiceLine} = require('../invoice.js');
+const {Invoice, InvoiceLine} = require('../classes/invoice.js');
 
 
 /**

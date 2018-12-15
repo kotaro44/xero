@@ -4,7 +4,7 @@
  * This is a Full Test of the Class InvoiceLine
  */
 const assert = require('assert');
-const InvoiceLine = require('../invoiceLine.js');
+const InvoiceLine = require('../classes/invoiceLine.js');
 const numberOfTests = 20;
 
 /**
