@@ -48,7 +48,7 @@ function main() {
 
 
 /**
- * Available Functions
+ * Creates a single line Invoice Item and prints its total
  */
 function createInvoiceWithOneIem() {
     const invoice = new Invoice();
@@ -57,6 +57,9 @@ function createInvoiceWithOneIem() {
     console.log('Invoice with one Item:', invoice.lines);
 };
 
+/**
+ * Creates a multiple line Invoice Item with their respective qunatities and prints its total
+ */
 function createInvoiceWithMultipleItemsAndQuantities () {
     const invoice = new Invoice();
 
@@ -77,6 +80,9 @@ function createInvoiceWithMultipleItemsAndQuantities () {
     console.log('Multiple Items & Quantities: $' + invoice.getTotal().toFixed(2));
 };
 
+/**
+ * Creates a multiple line Invoice Item and removes one of ts items
+ */
 function removeItem() {
     const invoice = new Invoice();
 
@@ -87,6 +93,9 @@ function removeItem() {
     console.log('Remove Item: $' + invoice.getTotal().toFixed(2));
 };
 
+/**
+ * Creates 2 Invoices and merge them together to calculate the total
+ */
 function mergeInvoices() {
     const invoice1 = new Invoice();
     const invoice2 = new Invoice();
@@ -100,6 +109,9 @@ function mergeInvoices() {
     console.log('Merge Invoices: $' + invoice1.getTotal().toFixed(2));
 };
 
+/**
+ * Creates an Invoice object and clones it
+ */
 function cloneInvoice() {
     const invoice = new Invoice();
     const clonedInvoice = invoice.addInvoiceLine(new InvoiceLine(1, 0.99, 5, 'Onion'))
@@ -109,6 +121,9 @@ function cloneInvoice() {
     console.log('Cloned Invoice: $' + clonedInvoice.getTotal().toFixed(2));
 };
 
+/**
+ * Creates an Invoice and prints it in teh console
+ */
 function invoiceToString() {
     const invoice = new Invoice(
         new Date(),
