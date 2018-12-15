@@ -41,12 +41,12 @@ const properties = {
     getter: 'getNumber',
     setter: 'setNumber',
     default: {
-      value: '',
-      name: 'empty string',
+      value: -1,
+      name: -1,
     },
-    valid: ['', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'simple'],
-    invalid: [-123122342342342342343, -123123, -5, -1, 0, 1, 5, 123123, 123122342342342342343, undefined, null,
-      {}, {x: 2}, [], [1], [1,2,3], true, false, new InvoiceLine(), NaN, Infinity, -Infinity, (function(){})],
+    valid: [-123122342342342342343, -123123, -5, -1, 0, 1, 5, 123123, 123122342342342342343],
+    invalid: [undefined, null, '', 'simple', {}, {x: 2}, [], [1], [1,2,3], true, false, new InvoiceLine(),
+      NaN, Infinity, -Infinity, (function(){})],
   },
   lines: {// accepts only integers greater or equal to zero
     id: 'lines',
@@ -189,7 +189,7 @@ describe('Invoice', () => {
         invoice.addInvoiceLine(newLine);
         assertEqual(invoice.getAllInvoiceLines().length, rndProps.lines.length + newLines.length);
         assertEqual(invoice.getAllInvoiceLines()[rndProps.lines.length + newLines.length - 1], newLine);
-        assertEqual(invoice.getInvoiceLine(newLine.lineId), newLine);
+        assertEqual(invoice.getInvoiceLine(newLine.id), newLine);
       });
     });
 
@@ -200,9 +200,9 @@ describe('Invoice', () => {
         //remove the line from the local array to match the expected size of invoice lines
         newLines.splice(newLines.indexOf(newLine), 1);
         //remove the line from the invoice and test that the function should return the removed line
-        assertEqual(invoice.removeInvoiceLine(newLine.lineId).lineId , newLine.lineId);
+        assertEqual(invoice.removeInvoiceLine(newLine.id).id , newLine.id);
         assertEqual(invoice.getAllInvoiceLines().length, rndProps.lines.length + newLines.length);
-        assertEqual(invoice.getInvoiceLine(newLine.lineId), undefined);
+        assertEqual(invoice.getInvoiceLine(newLine.id), undefined);
       });
     });
   });
@@ -302,7 +302,7 @@ function getRandomProps() {
 
   return {
     date: new Date(Math.floor((new Date()).getTime()*Math.random())), //gets a random date from Jan 01 1970 until Today
-    number: '',
+    number: Math.floor(Math.random()*10000),
     lines: lines,
   };
 };
@@ -313,13 +313,13 @@ function getRandomProps() {
  */
 function getRandomInvoiceLine() {
   var props = {
-    lineId: lineIdCount++,
+    id: lineIdCount++,
     cost: Math.random()*100000,
     quantity: Math.floor(Math.random()*1000000),
     description: '',
   };
 
-  return (new InvoiceLine(props.lineId, props.cost, props.quantity, props.description));
+  return (new InvoiceLine(props.id, props.cost, props.quantity, props.description));
 };
 
 /**

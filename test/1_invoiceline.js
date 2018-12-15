@@ -20,11 +20,11 @@ const randomTests = 20;
  * tested with all the invalid and valid values of each property.
  */
 const properties = {
-  lineId: {// accepts only integers
-    id: 'lineId',
+  id: {// accepts only integers
+    id: 'id',
     name: 'Line ID',
-    getter: 'getLineId',
-    setter: 'setLineId',
+    getter: 'getId',
+    setter: 'setId',
     default: {
       value: -1,
       name: -1,
@@ -148,7 +148,7 @@ describe('InvoiceLine', () => {
    */
   describe('Function: clone', () => {
     var rndProps = getRandomProps();
-    var invoiceLine = new InvoiceLine(rndProps.lineId, rndProps.cost, rndProps.quantity, rndProps.description);
+    var invoiceLine = new InvoiceLine(rndProps.id, rndProps.cost, rndProps.quantity, rndProps.description);
     var clone = invoiceLine.clone();
 
     it('The clone should have the same values and calculate same total', () => {
@@ -235,7 +235,7 @@ function getDefaultArgs(until) {
  */
 function getRandomProps() {
   return {
-    lineId: Math.floor(Math.random()*10000),
+    id: Math.floor(Math.random()*10000),
     cost: Math.random()*100000,
     quantity: Math.floor(Math.random()*1000000),
     description: '',

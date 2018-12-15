@@ -1,20 +1,20 @@
 'use strict';
 
 class InvoiceLine {
-    constructor(lineId, cost, quantity, description) {
-        this.lineId = -1;
+    constructor(id, cost, quantity, description) {
+        this.id = -1;
         this.cost = 0;
         this.quantity = 0;
         this.description = '';
 
-        this.setLineId(lineId)
+        this.setId(id)
             .setCost(cost)
             .setQuantity(quantity)
             .setDescription(description);
     }
 
-    static isValidLineId(lineId) {
-        return (typeof lineId === 'number' && isFinite(lineId));
+    static isValidId(id) {
+        return (typeof id === 'number' && isFinite(id));
     }
 
     static isValidCost(cost) {
@@ -29,9 +29,9 @@ class InvoiceLine {
         return (typeof description === 'string');
     }
 
-    setLineId(lineId) {
-        if (InvoiceLine.isValidLineId(lineId)) {
-            this.lineId = lineId;
+    setId(id) {
+        if (InvoiceLine.isValidId(id)) {
+            this.id = id;
         }
 
         return this;
@@ -61,8 +61,8 @@ class InvoiceLine {
         return this;
     }
 
-    getLineId() {
-        return this.lineId;
+    getId() {
+        return this.id;
     }
 
     getCost() {
@@ -78,7 +78,7 @@ class InvoiceLine {
     }
 
     clone() {
-        return (new InvoiceLine(this.lineId, this.cost, this.quantity, this.description));
+        return (new InvoiceLine(this.id, this.cost, this.quantity, this.description));
     }
 
     getTotal() {

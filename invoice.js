@@ -5,7 +5,7 @@ const InvoiceLine = require('./invoiceLine.js');
 class Invoice {
     constructor(date, number, lines) {
         this.date = new Date();
-        this.number = '';
+        this.number = -1;
         this.lines = [];
 
         this.setDate(date)
@@ -18,7 +18,7 @@ class Invoice {
     }
 
     static isValidNumber(number) {
-        return (typeof number === 'string');
+        return (typeof number === 'number' && isFinite(number));
     }
 
     static isValidLines(lines) {
@@ -96,7 +96,7 @@ class Invoice {
 
     getInvoiceLine(lineId) {
         return this.lines.find(line => {
-            return line.lineId === lineId;
+            return line.id === lineId;
         });
     }
 
@@ -135,7 +135,7 @@ class Invoice {
     }
 
     toString() {
-        return this.number + ' (' + this.date.toDateString() + '):\n' +
+        return 'Invoice #' + this.number + ' (' + this.date.toDateString() + '):\n' +
             this.lines.map(line => {
                 return line.toString();
             }).join('\n') +
