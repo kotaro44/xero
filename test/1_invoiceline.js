@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * This is a Full Class Test of InvoiceLine
+ * This is a Full Test of the Class InvoiceLine
  */
 const assert = require('assert');
 const InvoiceLine = require('../invoiceLine.js');

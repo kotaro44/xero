@@ -19,21 +19,24 @@
     When you have finished the solution please zip it up and email it back to the recruiter or developer who sent it to you
 */
 
+/**
+ * Carlos:
+ *
+ * Originally this project was using a 'C#' like coding style on the namings, so the functions and properties were renamed
+ * from 'Uper Camel Case' to just 'Camel Case' that matches more with JS standards.
+ *
+ * Classes remains in 'Uper Camel Case' since this is also a common standard in JS.
+ */
+
+//we can directly include both classes from invoice.js
 const {Invoice, InvoiceLine} = require('./invoice.js');
-const Console = {
-    WriteLine: function PrintLn() {
-        return console.log(...[].map.call(arguments, argument => {
-            if (typeof argument.toString === 'function') {
-                return argument.toString();
-            }
 
-            return argument;
-        }));
-    }
-};
-
-function Main() {
-    console.log('Welcome to Xero Tech Test!');
+/**
+ * This is a 'C' like program that declares a 'main' function that calls all the remianing function as needed.
+ */
+function main() {
+    console.log('Welcome to Xero Tech Test! (modified by Carlos A. Sanchez)');
+    console.log(); // new Line
 
     createInvoiceWithOneIem();
     createInvoiceWithMultipleItemsAndQuantities();
@@ -41,68 +44,85 @@ function Main() {
     mergeInvoices();
     cloneInvoice();
     invoiceToString();
-}
+};
 
+
+/**
+ * Available Functions
+ */
 function createInvoiceWithOneIem() {
     const invoice = new Invoice();
+
     invoice.addInvoiceLine(new InvoiceLine(1, 6.99, 1, 'Apple'));
-    console.log(invoice.lines);
-}
+    console.log('Invoice with one Item:', invoice.lines);
+};
 
 function createInvoiceWithMultipleItemsAndQuantities () {
     const invoice = new Invoice();
-    invoice.addInvoiceLine(new InvoiceLine(1, 10.21, 4, 'Banana'));
-    invoice.addInvoiceLine(new InvoiceLine(2, 5.21, 1, 'Orange' ));
-    invoice.addInvoiceLine(new InvoiceLine(3, 6.21, 5, 'Pineapple'));
-    console.log(invoice.getTotal());
-}
+
+    /**
+     * invoice.addInvoiceLine(new InvoiceLine(1, 10.21, 4, 'Banana'));
+     * invoice.addInvoiceLine(new InvoiceLine(2, 5.21, 1, 'Orange' ));
+     * invoice.addInvoiceLine(new InvoiceLine(3, 6.21, 5, 'Pineapple'));
+     */
+
+    //this can be rewritten like this:
+    invoice.addInvoiceLines(new InvoiceLine(1, 10.21, 4, 'Banana'),
+                            new InvoiceLine(2, 5.21, 1, 'Orange'),
+                            new InvoiceLine(3, 6.21, 5, 'Pineapple'));
+
+    /**
+     * I'm not doing the format (toFixed) inside the getTotal since is better to keep the exact value
+     */
+    console.log('Multiple Items & Quantities: $' + invoice.getTotal().toFixed(2));
+};
 
 function removeItem() {
     const invoice = new Invoice();
 
-    invoice.addInvoiceLine(new InvoiceLine(1, 10.21, 1, 'Orange'));
-    invoice.addInvoiceLine(new InvoiceLine(2, 10.99, 5, 'Banana'));
+    invoice.addInvoiceLine(new InvoiceLine(1, 10.21, 1, 'Orange'))
+           .addInvoiceLine(new InvoiceLine(2, 10.99, 5, 'Banana'))
+           .removeInvoiceLine(1);
 
-    invoice.removeInvoiceLine(1);
-
-    console.log(invoice.getTotal());
-}
+    console.log('Remove Item: $' + invoice.getTotal().toFixed(2));
+};
 
 function mergeInvoices() {
     const invoice1 = new Invoice();
-
-    invoice1.addInvoiceLine(new InvoiceLine(1, 10.21, 1, 'Blueberries'));
-
     const invoice2 = new Invoice();
 
-    invoice2.addInvoiceLine(new InvoiceLine(2, 5.29, 4, 'Orange'));
-    invoice2.addInvoiceLine(new InvoiceLine(3, 9.99, 1, 'Banana'));
+    invoice2.addInvoiceLine(new InvoiceLine(2, 5.29, 4, 'Orange'))
+            .addInvoiceLine(new InvoiceLine(3, 9.99, 1, 'Banana'));
 
-    invoice1.mergeInvoice(invoice2);
+    invoice1.addInvoiceLine(new InvoiceLine(1, 10.21, 1, 'Blueberries'))
+            .mergeInvoice(invoice2);
 
-    console.log(invoice1.getTotal());
-}
+    console.log('Merge Invoices: $' + invoice1.getTotal().toFixed(2));
+};
 
 function cloneInvoice() {
     const invoice = new Invoice();
+    const clonedInvoice = invoice.addInvoiceLine(new InvoiceLine(1, 0.99, 5, 'Onion'))
+                                 .addInvoiceLine(new InvoiceLine(2, 10.49, 2, 'Watermelon'))
+                                 .clone();
 
-    invoice.addInvoiceLine(new InvoiceLine(1, 0.99, 5, 'Onion'));
-    invoice.addInvoiceLine(new InvoiceLine(2, 10.49, 2, 'Watermelon'));
-
-    const ClonedInvoice = invoice.clone();
-    console.log(ClonedInvoice.getTotal());
-}
+    console.log('Cloned Invoice: $' + clonedInvoice.getTotal().toFixed(2));
+};
 
 function invoiceToString() {
     const invoice = new Invoice(
         new Date(),
         '1000',
         [
-            new InvoiceLine(1, 1.99, 20, 'Peer')
-        ]
+            new InvoiceLine(1, 1.99, 20, 'Peer'),
+        ],
     );
 
+    console.log(); // new line
     console.log(invoice.toString());
-}
+};
 
-Main();
+/**
+ * Finally call the main
+ */
+main();
