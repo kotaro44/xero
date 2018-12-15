@@ -1,6 +1,14 @@
 'use strict';
 
 class InvoiceLine {
+    /**
+     * Creates a new InvoiceLine instance.
+     * An InvoiceLine represents a line inside an invoice ex.
+     *
+     *  3 Bananas X $2.00 = $6.00
+     *
+     * @constructor
+     */
     constructor(id, cost, quantity, description) {
         this.id = -1;
         this.cost = 0;
@@ -14,7 +22,7 @@ class InvoiceLine {
     }
 
     static isValidId(id) {
-        return (typeof id === 'number' && isFinite(id));
+        return (typeof id === 'number' && isFinite(id) && (id % 1 === 0));
     }
 
     static isValidCost(cost) {
@@ -22,7 +30,7 @@ class InvoiceLine {
     }
 
     static isValidQuantity(quantity) {
-        return (typeof quantity === 'number' && isFinite(quantity) && quantity >= 0);
+        return (typeof quantity === 'number' && isFinite(quantity) && (quantity >= 0) && (quantity % 1 === 0));
     }
 
     static isValidDescription(description) {
@@ -86,7 +94,7 @@ class InvoiceLine {
     }
 
     toString() {
-        return (this.description + ' X ' + this.quantity + ' = ' + this.getTotal());
+        return (this.quantity + ' ' + this.description + ' X $' + this.cost.toFixed(2) + ' = ' + this.getTotal().toFixed(2));
     }
 }
 

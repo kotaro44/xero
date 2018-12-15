@@ -18,11 +18,12 @@ class Invoice {
     }
 
     static isValidNumber(number) {
-        return (typeof number === 'number' && isFinite(number));
+        return (typeof number === 'number' && isFinite(number) && (number % 1 === 0));
     }
 
     static isValidLines(lines) {
         var isValid = true;
+        var lineIds = null;
 
         if (Array.isArray(lines)) {
             lines.some(line => {
@@ -32,6 +33,21 @@ class Invoice {
 
                 return true;
             });
+
+            if (isValid) {
+                lineIds = lines.map(line => {
+                    return line.getId();
+                });
+
+                lineIds.some(id => {
+                    if (lineIds.indexOf(id) !== lineIds.lastIndexOf(id)) {
+                        return (isValid = false);
+                    }
+
+                    return true;
+                });
+            }
+
         }
         else {
             isValid = false;
