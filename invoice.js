@@ -3,25 +3,25 @@
 const InvoiceLine = require('./invoiceLine.js');
 
 class Invoice {
-    constructor(date = new Date(), number = '', lines = []) {
-        this.setDate(date);
-        this.setNumber(number);
-        this.setLines(lines);
+    constructor(date, number, lines) {
+        this.date = new Date();
+        this.number = '';
+        this.lines = [];
+
+        this.setDate(date)
+            .setNumber(number)
+            .setLines(lines);
     }
 
-    setDate(date) {
-        if (date instanceof Date && !isNaN(date.valueOf())) {
-            this.date = date;
-        }
+    static isValidDate(date) {
+        return (date instanceof Date && !isNaN(date.valueOf()));
     }
 
-    setNumber(number) {
-        if (typeof number === 'string') {
-            this.number = number;
-        }
+    static isValidNumber(number) {
+        return (typeof number === 'string');
     }
 
-    setLines(lines) {
+    static isValidLines(lines) {
         var isValid = true;
 
         if (Array.isArray(lines)) {
@@ -37,9 +37,33 @@ class Invoice {
             isValid = false;
         }
 
-        if (isValid) {
-            this.lines = lines;
+        return isValid;
+    }
+
+    setDate(date) {
+        if (Invoice.isValidDate(date)) {
+            this.date = new Date(date.getTime());
         }
+
+        return this;
+    }
+
+    setNumber(number) {
+        if (Invoice.isValidNumber(number)) {
+            this.number = number;
+        }
+
+        return this;
+    }
+
+    setLines(lines) {
+        if (Invoice.isValidLines(lines)) {
+            this.lines = lines.map(line => {
+                return line;
+            })
+        }
+
+        return this;
     }
 
     getDate() {
@@ -70,18 +94,18 @@ class Invoice {
         return this;
     }
 
-    getInvoiceLine(id) {
+    getInvoiceLine(lineId) {
         return this.lines.find(line => {
-            return line.id === id;
+            return line.lineId === lineId;
         });
     }
 
     getAllInvoiceLines() {
-        return this.lines;
+        return this.getLines();
     }
 
-    removeInvoiceLine(id) {
-        var line = this.getInvoiceLine(id);
+    removeInvoiceLine(lineId) {
+        var line = this.getInvoiceLine(lineId);
         var linePosition = null;
 
         if (line) {
@@ -102,14 +126,6 @@ class Invoice {
                 this.addInvoiceLine(line.clone());
             });
         }
-
-        return this;
-    }
-
-    mergeInvoices() {
-        [].map.forEach(arguments, invoice => {
-            this.mergeInvoice(invoice);
-        });
 
         return this;
     }

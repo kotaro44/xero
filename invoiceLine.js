@@ -1,35 +1,64 @@
 'use strict';
 
 class InvoiceLine {
-    constructor(lineId = -1, cost = 0, quantity = 0, description = '') {
-        this.setLineId(lineId);
-        this.setCost(cost);
-        this.setQuantity(quantity);
-        this.setDescription(description);
+    constructor(lineId, cost, quantity, description) {
+        this.lineId = -1;
+        this.cost = 0;
+        this.quantity = 0;
+        this.description = '';
+
+        this.setLineId(lineId)
+            .setCost(cost)
+            .setQuantity(quantity)
+            .setDescription(description);
+    }
+
+    static isValidLineId(lineId) {
+        return (typeof lineId === 'number' && isFinite(lineId));
+    }
+
+    static isValidCost(cost) {
+        return (typeof cost === 'number' && isFinite(cost));
+    }
+
+    static isValidQuantity(quantity) {
+        return (typeof quantity === 'number' && isFinite(quantity) && quantity >= 0);
+    }
+
+    static isValidDescription(description) {
+        return (typeof description === 'string');
     }
 
     setLineId(lineId) {
-        if (isFinite(lineId)) {
+        if (InvoiceLine.isValidLineId(lineId)) {
             this.lineId = lineId;
         }
+
+        return this;
     }
 
     setCost(cost) {
-        if (isFinite(cost)) {
+        if (InvoiceLine.isValidCost(cost)) {
             this.cost = cost;
         }
+
+        return this;
     }
 
     setQuantity(quantity) {
-        if (isFinite(quantity) && quantity >= 0) {
+        if (InvoiceLine.isValidQuantity(quantity)) {
             this.quantity = quantity;
         }
+
+        return this;
     }
 
     setDescription(description) {
-        if (typeof description === 'string') {
+        if (InvoiceLine.isValidDescription(description)) {
             this.description = description;
         }
+
+        return this;
     }
 
     getLineId() {

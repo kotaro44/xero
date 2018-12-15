@@ -1,0 +1,25 @@
+{
+  "name": "xero",
+  "version": "1.0.0",
+  "description": "XeroTechnicalTest",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kotaro44/xero.git"
+  },
+  "author": {
+    "name": "Carlos Amilcar Sanchez Rosa",
+    "email": "csancherhn@gmail.com"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kotaro44/xero/issues"
+  },
+  "homepage": "https://github.com/kotaro44/xero#readme",
+  "devDependencies": {
+    "mocha": "5.2.0"
+  }
+}
