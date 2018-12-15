@@ -26,6 +26,8 @@
  * from 'Uper Camel Case' to just 'Camel Case' that matches more with JS standards.
  *
  * Classes remains in 'Uper Camel Case' since this is also a common standard in JS.
+ * 
+ * Invoice Number Type was modified from String to Number to follow a similar format with the Invoice line Id.
  */
 
 //we can directly include both classes from invoice.js
@@ -127,7 +129,7 @@ function cloneInvoice() {
 function invoiceToString() {
     const invoice = new Invoice(
         new Date(),
-        '1000',
+        1000,
         [
             new InvoiceLine(1, 1.99, 20, 'Peer'),
         ],
