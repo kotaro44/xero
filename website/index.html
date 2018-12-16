@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+  	<title>Xero Invoice</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/app.css">
+    <script type="text/javascript" src="classes/invoiceLine.js"></script>
+    <script type="text/javascript" src="classes/invoice.js"></script>
+  	<script type="text/javascript" src="../node_modules/angular/angular.min.js"></script>
+  	<script type="text/javascript" src="config/app.js"></script>
+</head>
+<body ng-app="app" ng-controller="appCtrl">
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2>Xero Invoice Tester</h2>
+                <span class="btn btn-primary float-right" ng-click="vm.newInvoice()">
+                    <i class="fa fa-plus"></i>
+                    <span>New Invoice</span>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <ul class="list-group">
+                            <li class="list-group-item" ng-if="!vm.invoices.length">
+                                No Invoices
+                            </li>
+                             <li 
+                                class="list-group-item" 
+                                ng-repeat="invoice in vm.invoices" 
+                                ng-click="vm.invoice = invoice" 
+                                ng-class="{'selected': vm.invoice === invoice}"
+                                >
+                                <div>
+                                    <span class="btn btn-default" ng-click="vm.cloneInvoice(invoice)">
+                                        <i class="fa fa-copy"></i>
+                                    </span>
+                                    <span class="btn btn-default" ng-click="vm.printInvoice(invoice)">
+                                        <i class="fa fa-font"></i>
+                                    </span>
+                                    <span>Invoice #{{invoice.number}} ({{invoice.lines.length}}): {{invoice.getTotal() | currency}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-8 invoice">
+                        <div class="panel panel-default" ng-if="vm.invoice">
+                            <div class="panel-heading">
+                                <span ng-if="!vm.edit">Invoice #{{vm.invoice.number}}</span>
+                                <span ng-if="vm.edit">
+                                    <span>Invoice #</span>
+                                    <input 
+                                        type="number" 
+                                        class="form-control" 
+                                        ng-model="vm.invoiceClone.number"
+                                        ng-change="vm.invoiceChanged()"
+                                        step="1"
+                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                        >
+                                </span>
+                                <span
+                                    class="btn btn-link float-right" 
+                                    ng-click="vm.toggleEdit()"
+                                    >
+                                    <span ng-if="!vm.edit">
+                                        <i class="fa fa-edit"></i>
+                                        <span>edit</span>
+                                    </span>
+                                    <span ng-if="vm.edit">
+                                        <i class="fa fa-times"></i>
+                                        <span>cancel</span>
+                                    </span>
+                                </span>
+                                <span
+                                    ng-if="vm.edit"
+                                    class="btn btn-link float-left" 
+                                    ng-click="vm.saveInvoice()"
+                                    >
+                                    <i class="fa fa-save"></i>
+                                    <span>save</span>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div ng-if="!vm.edit">
+                                    {{vm.invoice.date | date}}
+                                </div>
+                                <div ng-if="vm.edit">
+                                    <input 
+                                        type="date" 
+                                        class="form-control" 
+                                        ng-model="vm.invoiceClone.date"
+                                        ng-change="vm.invoiceChanged()"
+                                        >
+                                </div>
+                                <hr>
+                                <div ng-if="!vm[vm.edit ? 'invoiceClone' : 'invoice'].lines.length">No Items</div>
+                                <div ng-if="!vm.edit" class="row" ng-repeat="line in vm.invoice.lines">
+                                    <div class="col-md-2">
+                                        <span >{{line.quantity}}</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <span>{{line.description || '---'}}</span>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <i class="fa fa-times"></i>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span>{{line.cost | currency}}</span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        {{line.getTotal() | currency}}
+                                    </div>
+                                </div>
+
+                                <div ng-if="vm.edit" class="row" ng-repeat="line in vm.invoiceClone.lines">
+                                    <div class="col-md-2">
+                                        <input 
+                                            type="number" 
+                                            class="form-control" 
+                                            ng-model="line.quantity"
+                                            ng-change="vm.invoiceLineChanged(line)"
+                                            min="0"
+                                            step="1"
+                                            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                            >
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input 
+                                            type="text" 
+                                            class="form-control" 
+                                            ng-model="line.description"
+                                            ng-change="vm.invoiceLineChanged(line)"
+                                            >
+                                    </div>
+                                    <div class="col-md-1">
+                                        <i class="fa fa-times"></i>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="cost-wrapper">
+                                            <span>$</span>
+                                            <input 
+                                                type="number" 
+                                                class="form-control" 
+                                                ng-model="line.cost"
+                                                ng-change="vm.invoiceLineChanged(line)"
+                                                step="1"
+                                                >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        {{line.getTotal() | currency}}
+                                    </div>
+                                    <div class="col-md-1">
+                                        <span class="btn btn-link" ng-click="vm.deleteInvoiceLine(line)">
+                                            <i class="fa fa-trash text-danger"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div ng-if="vm.edit">
+                                    <hr>
+                                    <span class="btn btn-primary" ng-click="vm.newInvoiceLine()">
+                                        <i class="fa fa-plus"></i>
+                                        <span>New Invoice Line</span>
+                                    </span>
+                                    <span class="btn btn-default" ng-click="vm.mergeInvoice()">
+                                        <i class="fa fa-compress"></i>
+                                        <span>Merge Invoice #</span>
+                                    </span>
+                                    <span class="invoice-select">
+                                        <select class="form-control" ng-model="vm.invoiceToMerge">
+                                            <option ng-repeat="invoice in vm.invoices">{{invoice.number}}</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="panel-footer text-align-right">
+                                Total: {{(vm.edit ? vm.invoiceClone : vm.invoice).getTotal() | currency}}
+                            </div>
+                        </div>
+                        <div class="panel panel-default" ng-if="!vm.invoice">
+                            <div class="panel-heading">Please select an Invoice...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer text-align-right">
+                <div>Developed by: <a href="https://kotaro44.github.com">Carlos A. Sanchez</a></div>
+                <div>Dec - 2018</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,7 +1,5 @@
 'use strict';
 
-const InvoiceLine = require('./invoiceLine.js');
-
 class Invoice {
     /**
      * Creates a new Invoice instance.
@@ -45,7 +43,6 @@ class Invoice {
      * Static function that can be used to know if a collection of lines is valid
      * lines should be:
      *  -any array object that includes only valid instances of InvoiceLine
-     *  -the id's of each InvoiceLine should be unique
      * @param {*} lines: the argument to test
      * @return {Boolean} the result of the validation
      */
@@ -64,27 +61,6 @@ class Invoice {
 
                 return true;
             });
-
-            /**
-             * if the lines still valid, check that all ids are unique in this invoice
-             */
-            if (isValid) {
-                lineIds = lines.map(line => {
-                    return line.getId();
-                });
-
-                lineIds.some(id => {
-                    /**
-                     * is unique
-                     */
-                    if (lineIds.indexOf(id) !== lineIds.lastIndexOf(id)) {
-                        return (isValid = false);
-                    }
-
-                    return true;
-                });
-            }
-
         }
         else {
             isValid = false;
@@ -301,12 +277,3 @@ class Invoice {
         ].join('\n');
     }
 }
-
-/**
- * Since InvoiceLine is fully required by this class, we export it as well in order to ex
- * mosule trying to import Invoice can also import InvoiceLine directly.
- */
-module.exports = {
-    Invoice: Invoice,
-    InvoiceLine: InvoiceLine,
-};

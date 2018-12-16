@@ -22,5 +22,8 @@
   "homepage": "https://github.com/kotaro44/xero#readme",
   "devDependencies": {
     "mocha": "5.2.0"
+  },
+  "dependencies": {
+    "angular": "1.7.5"
   }
 }

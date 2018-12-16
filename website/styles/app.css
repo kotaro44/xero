@@ -1,0 +1,71 @@
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+.container > .panel {
+    margin-top: 20px;
+}
+
+.panel-heading {
+    position: relative;
+}
+
+.invoice-edit-btn {
+    top: 5px;
+}
+
+.panel-footer {
+    font-weight: bold;
+}
+
+.list-group .list-group-item {
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.list-group .list-group-item:hover {
+    background-color: #dddddd;
+}
+
+.list-group .list-group-item.selected {
+    font-weight: bold;
+    background-color: #337ab7;
+    color: white;
+}
+
+.invoice {
+    padding: 30px;
+}
+
+.invoice .panel-heading {
+    text-align: center;
+    font-weight: bold;
+}
+
+.text-align-right {
+    text-align: right;
+}
+
+.float-right {
+    position: absolute;
+    right: 10px;
+    top: 6px;
+}
+
+.float-left {
+    position: absolute;
+    left: 10px;
+    top: 6px;
+}
+
+.panel-heading input,
+.cost-wrapper input {
+    display: inline-block;
+    width: 80px;
+}
+
+.invoice-select {
+    display: inline-block;
+    width: 200px;
+}
