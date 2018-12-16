@@ -282,18 +282,27 @@ describe('Invoice', () => {
  * @return {Object} an object with random generated values for each property of the class
  */
 function assertEqual(value1, value2) {
-    if (value1 instanceof Date && value2 instanceof Date) {
-        value1 = value1.toDateString();
-        value2 = value2.toDateString();
+    if (value1 instanceof InvoiceLine && value2 instanceof InvoiceLine) {
+        assertEqual(value1.id, value2.id);
+        assertEqual(value1.description, value2.description);
+        assertEqual(value1.quantity, value2.quantity);
+        assertEqual(value1.cost, value2.cost);
+        assertEqual(value1.getTotal(), value2.getTotal());
     }
+    else {
+        if (value1 instanceof Date && value2 instanceof Date) {
+            value1 = value1.toDateString();
+            value2 = value2.toDateString();
+        }
 
-    if (Array.isArray(value1) && Array.isArray(value2)) {
-        assert.equal(value1.length, value2.length);
-        value1.forEach((element, index) => {
-            assertEqual(element, value2[index]);
-        });
-    } else {
-        assert.equal(value1, value2);
+        if (Array.isArray(value1) && Array.isArray(value2)) {
+            assert.equal(value1.length, value2.length);
+            value1.forEach((element, index) => {
+                assertEqual(element, value2[index]);           
+            });
+        } else {
+            assert.equal(value1, value2);
+        }
     }
 };
 
